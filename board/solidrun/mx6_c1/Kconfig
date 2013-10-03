@@ -1,0 +1,23 @@
+if TARGET_MX6_C1
+
+config SYS_CPU
+	string
+	default "armv7"
+
+config SYS_BOARD
+	string
+	default "mx6_c1"
+
+config SYS_VENDOR
+	string
+	default "solidrun"
+
+config SYS_SOC
+	string
+	default "mx6"
+
+config SYS_CONFIG_NAME
+	string
+	default "mx6_c1"
+
+endif
