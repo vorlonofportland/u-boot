@@ -1,0 +1,6 @@
+MX6 CuBox-I BOARD
+M:	Steve Langasek <vorlon@debian.org>
+S:	Maintained
+F:	board/solidrun/mx6_cubox-i/
+F:	include/configs/mx6_cubox-i.h
+F:	configs/mx6_cubox-i_defconfig
