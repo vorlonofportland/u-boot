@@ -92,27 +92,19 @@ void spl_mmc_load_image(void)
 		hang();
 	}
 
-	boot_mode = spl_boot_mode();
-	if (boot_mode == MMCSD_MODE_RAW) {
-		debug("boot mode - RAW\n");
-#ifdef CONFIG_SPL_OS_BOOT
-		if (spl_start_uboot() || mmc_load_image_raw_os(mmc))
-#endif
-		err = mmc_load_image_raw(mmc,
-			CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR);
+
 #ifdef CONFIG_SPL_FAT_SUPPORT
-	} else if (boot_mode == MMCSD_MODE_FAT) {
-		debug("boot mode - FAT\n");
+	/* FAT filesystem */
 #ifdef CONFIG_SPL_OS_BOOT
-		if (spl_start_uboot() || spl_load_image_fat_os(&mmc->block_dev,
-								CONFIG_SYS_MMC_SD_FAT_BOOT_PARTITION))
+	if (spl_start_uboot() || spl_load_image_fat_os(&mmc->block_dev,
+							CONFIG_SYS_MMC_SD_FAT_BOOT_PARTITION))
 #endif
 		err = spl_load_image_fat(&mmc->block_dev,
 					CONFIG_SYS_MMC_SD_FAT_BOOT_PARTITION,
 					CONFIG_SPL_FAT_LOAD_PAYLOAD_NAME);
 #endif
 #ifdef CONFIG_SUPPORT_EMMC_BOOT
-	} else if (boot_mode == MMCSD_MODE_EMMCBOOT) {
+	if (err) {
 		/*
 		 * We need to check what the partition is configured to.
 		 * 1 and 2 match up to boot0 / boot1 and 7 is user data
@@ -129,19 +121,21 @@ void spl_mmc_load_image(void)
 #endif
 			hang();
 		}
+	}
+#endif
+
+	if (err) {
+		printf("Load image from RAW...\n");
 #ifdef CONFIG_SPL_OS_BOOT
 		if (spl_start_uboot() || mmc_load_image_raw_os(mmc))
 #endif
 		err = mmc_load_image_raw(mmc,
 			CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR);
-#endif
-	} else {
+		if (err) {
 #ifdef CONFIG_SPL_LIBCOMMON_SUPPORT
-		puts("spl: wrong MMC boot mode\n");
+			printf("spl: wrong MMC boot mode\n");
 #endif
-		hang();
+			hang();
+		}
 	}
-
-	if (err)
-		hang();
 }
