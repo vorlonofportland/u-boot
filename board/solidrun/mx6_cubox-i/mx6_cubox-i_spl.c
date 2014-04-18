@@ -517,6 +517,7 @@ void board_init_f(ulong dummy)
 
 void spl_board_init(void)
 {
+	get_clocks();
 	setup_boot_device();
 }
 
