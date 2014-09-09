@@ -70,11 +70,10 @@ u32 spl_boot_mode(void)
 	/* for MMC return either RAW or FAT mode */
 	case BOOT_DEVICE_MMC1:
 	case BOOT_DEVICE_MMC2:
-#ifdef CONFIG_SPL_FAT_SUPPORT
-		return MMCSD_MODE_FAT;
-#else
-		return MMCSD_MODE_RAW;
-#endif
+		return MMCSD_MODE_ANY;
+		break;
+	case BOOT_DEVICE_SATA:
+		return MMCSD_MODE_UNDEFINED;
 		break;
 	default:
 		puts("spl: ERROR:  unsupported device\n");
