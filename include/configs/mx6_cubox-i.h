@@ -16,6 +16,10 @@
 #include <asm/imx-common/gpio.h>
 #include <linux/sizes.h>
 
+#define CONFIG_SPL_FAT_SUPPORT
+#define CONFIG_SPL_MMC_SUPPORT
+#define CONFIG_SPL_BOARD_INIT
+
 #include "imx6_spl.h"
 
 #undef DEBUG
