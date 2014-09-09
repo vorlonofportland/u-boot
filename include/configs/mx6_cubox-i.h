@@ -310,6 +310,11 @@
 #define CONFIG_SYS_LONGHELP
 #define CONFIG_SYS_HUSH_PARSER
 
+#if defined(CONFIG_SPL_MMC_SUPPORT)
+#undef CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR
+#define CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR 84
+#endif
+
 #ifndef __ASSEMBLY__
 extern char *config_sys_prompt;
 #endif
